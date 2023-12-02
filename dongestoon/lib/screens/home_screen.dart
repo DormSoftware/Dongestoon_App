@@ -212,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: [
               const SizedBox(
-                height: 50,
+                height: 45,
               ),
               Container(
                 width: 225,
@@ -230,8 +230,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         const Expanded(
                           child: Divider(
-                            endIndent: 10.0,
-                            thickness: 0.5,
+                            color: Colors.grey,
+                            endIndent: 14.0,
+                            thickness: 0.1,
                           ),
                         ),
                         Text(
@@ -242,11 +243,52 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const Expanded(
                           child: Divider(
-                            indent: 10.0,
-                            thickness: 0.5,
+                            color: Colors.grey,
+                            indent: 14.0,
+                            thickness: 0.1,
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 38),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                "نام کالا",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.grey[600]),
+                              ),
+                              Text(
+                                expense.name,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "دسته بندی",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.grey[600]),
+                              ),
+                              Text(
+                                expense.category,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+
+                        ],
+                      ),
                     ),
                   ],
                 ),

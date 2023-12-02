@@ -2,6 +2,7 @@ import 'package:dongestoon/models/user.dart';
 
 class Expense {
   String id;
+  String name;
   User user;
   String category;
   String groupId;
@@ -12,6 +13,7 @@ class Expense {
 
   Expense(
       {required this.id,
+        required this.name,
       required this.user,
       required this.category,
       required this.groupId,
