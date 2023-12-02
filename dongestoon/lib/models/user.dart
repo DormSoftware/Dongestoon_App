@@ -17,7 +17,7 @@ class User {
       {required this.id,
       required this.name,
       this.profileImage,
-      this.rank,
+       this.rank,
       this.groupList,
       this.moneyReceived,
       this.moneySpent,

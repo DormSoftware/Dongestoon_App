@@ -1,4 +1,5 @@
-import 'package:dongestoon/bloc/home/home_cubit.dart';
+import 'dart:ui';
+import 'package:dongestoon/bloc/Home/home_cubit.dart';
 import 'package:dongestoon/models/user.dart';
 import 'package:dongestoon/temp_data.dart';
 import 'package:dongestoon/widget/group_list_item.dart';
@@ -16,7 +17,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late User user;
+  User user = User(id: "id", name: "name",rank: 0);
+  var selectedNotificationIndex = -1;
   GlobalKey<ScrollSnapListState> sslKey = GlobalKey();
 
   void _onItemFocus(int index) {
@@ -29,14 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
       textDirection: TextDirection.rtl,
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (BuildContext context, state) {
-          if (state is UserLoginSuccess) {}
+          if(state is UserLoginSuccess) {
+            user = state.user;
+          }
         },
         builder: (context, state) {
-          if (state is UserLoginSuccess) {
-            user = state.user;
-            return mainHomeScreen();
-          }
-          return Container();
+          return mainHomeScreen();
         },
       ),
     );
@@ -102,30 +102,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  SizedBox(
+                  /*SizedBox(
                     height: 150,
                     child: ScrollSnapList(
-                      initialIndex: 3,
                       reverse: true,
-                      itemSize: 35,
+                      itemSize: 185,
                       onItemFocus: _onItemFocus,
                       itemCount: tempExpenseList.length,
                       key: sslKey,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () {
-                              sslKey.currentState!.focusToItem(index);
-                            },
-                            child: notificationItem(tempExpenseList[index]));
+                        return NotificationItem(
+                          expense: tempExpenseList[index],
+                        );
                       },
                     ),
-                  ),
+                  ),*/
                 ],
               ),
+              SizedBox(height: 130,),
+
               Expanded(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical:2),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                   child: SizedBox(
                     width: double.maxFinite,
                     child: Column(
@@ -133,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6),
+                          padding: EdgeInsets.only(right: 6, bottom: 6),
                           child: Text(
                             "گروه هات",
                             style: TextStyle(
@@ -142,11 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Flexible(
                           child: ListView.builder(
-
-                              itemCount: tempGroupList.length,
-                              itemBuilder: (context, index) {
-                                return groupItem(tempGroupList[index]);
-                              }),
+                            itemCount: tempGroupList.length,
+                            itemBuilder: (context, index) {
+                              return groupItem(tempGroupList[index]);
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -154,7 +153,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
-          )
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 210,),
+              SizedBox(
+                height: 400,
+                child: ScrollSnapList(
+                  reverse: true,
+                  itemSize: 185,
+                  onItemFocus: _onItemFocus,
+                  itemCount: tempExpenseList.length,
+                  key: sslKey,
+                  itemBuilder: (context, index) {
+                    return NotificationItem(
+                      expense: tempExpenseList[index],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

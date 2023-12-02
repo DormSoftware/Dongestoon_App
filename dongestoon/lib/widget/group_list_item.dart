@@ -57,8 +57,8 @@ Widget groupItem(Group group) {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 8),
-            child: IconButton(icon: Icon(Icons.chevron_right_outlined),onPressed: (){},),
+            padding: const EdgeInsets.only(left: 8),
+            child: IconButton(icon: const Icon(Icons.chevron_right_outlined),onPressed: (){},),
           )
 
         ],
