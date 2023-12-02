@@ -9,4 +9,7 @@ class UserLoginSuccess extends HomeState {
   final User user;
   UserLoginSuccess(this.user);
 }
-class SelectNotification extends HomeState{}
+class SelectNotification extends HomeState{
+  final int index;
+  SelectNotification(this.index);
+}

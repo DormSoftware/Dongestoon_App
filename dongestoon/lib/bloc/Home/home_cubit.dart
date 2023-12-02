@@ -7,10 +7,6 @@ import '../../models/user.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  Future<void> selectNotificationItem() async {
-    emit(SelectNotification());
-  }
-
   Future<void> fetchUserData() async {
     emit(
       UserLoginSuccess(
@@ -22,6 +18,12 @@ class HomeCubit extends Cubit<HomeState> {
       ),
     );
   }
+
+  Future<void> selectNotificationItem(int index) async {
+    emit(SelectNotification(index));
+  }
+
+
 
   HomeCubit() : super(HomeInitial());
 }
