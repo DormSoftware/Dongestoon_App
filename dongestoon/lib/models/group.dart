@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:dongestoon/models/user.dart';
 
@@ -6,7 +5,7 @@ class Group {
   String id;
   String name;
   List<User>? members;
-  Image? profilePic;
+  int? profilePic;
   double? totalCost;
   double? rank;
 

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:dongestoon/bloc/Home/home_cubit.dart';
 import 'package:dongestoon/temp_data.dart';
@@ -15,10 +16,12 @@ class NotificationItem extends StatefulWidget {
 }
 
 class _NotificationItemState extends State<NotificationItem> {
-  late bool isSelected;
+  bool? isSelected;
+  var dur = const Duration(milliseconds: 1000);
 
   @override
   void initState() {
+    isSelected = false;
     context.read<HomeCubit>().fetchUserData();
     super.initState();
   }
@@ -44,68 +47,69 @@ class _NotificationItemState extends State<NotificationItem> {
             .read<HomeCubit>()
             .selectNotificationItem(tempExpenseList.indexOf(widget.expense));
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: AnimatedPadding(
+        duration: dur,
+        padding: EdgeInsets.only(
+          top: isSelected! ? 35.0 : 0.0,
+          left: isSelected! ? 8.0 : 8.0,
+          right: /* isSelected! ? 50.0 :*/ 8.0,
+        ),
         child: Stack(
           children: [
-            Column(
+            Row(
               children: [
-                const SizedBox(
-                  height: 25,
-                ),
-                Container(
-                  width: 170,
-                  height: 98,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 20, 18, 24),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(22.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          expense.category,
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              expense.amount % 10 == 0
-                                  ? expense.amount.toInt().toString()
-                                  : expense.amount.toString(),
-                              style: const TextStyle(
-                                  color: Colors.redAccent, fontSize: 13),
-                            ),
-                            Text(
-                              getPassedTime(expense.date),
-                              style: const TextStyle(
-                                  color: Colors.grey, fontSize: 10),
-                            ),
-                          ],
-                        )
-                      ],
+                Column(
+                  children: [
+                    AnimatedContainer(
+                      duration: dur,
+                      height: isSelected! ? 50 : 25,
                     ),
-                  ),
+                    AnimatedContainer(
+                      transformAlignment: Alignment.topCenter,
+                      curve: Curves.easeOutBack,
+                      duration: dur,
+                      width: isSelected! ? 225 : 170,
+                      height: isSelected! ? 360 : 98,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 20, 18, 24),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        //duration: dur,
+                        padding: const EdgeInsets.all(22.0),
+                        child: isSelected!
+                            ? selectedNotificationItem(expense)
+                            : notSelectedItem(expense),
+                      ),
+                    ),
+                  ],
                 ),
+                SizedBox(width: isSelected! ? 50 : 0,)
               ],
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
                   width: 63,
                 ),
-                ClipOval(
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(23), // Image radius
-                    child: Image.asset('assets/images/blank-profile.jpg',
-                        fit: BoxFit.cover),
+                //isSelected! ? AnimatedContainer(duration: dur, width: isSelected! ? 20 : 0 ,) : SizedBox(),
+                AnimatedPadding(
+                  duration: dur,
+                  padding: EdgeInsets.only(left: isSelected! ? 0 : 50 ),
+                  child: AnimatedContainer(
+                    duration: dur,
+                    transformAlignment: Alignment.center,
+                    width: isSelected! ? 100 : 50,
+                    height: isSelected! ? 100 : 50,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                    child: ClipOval(
+                      child: SizedBox.fromSize(
+                        child: Image.asset(
+                            'assets/images/avatar${expense.user.profileImage! + 1}.png',
+                            fit: BoxFit.cover),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -113,6 +117,108 @@ class _NotificationItemState extends State<NotificationItem> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget selectedNotificationItem(Expense expense) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        AnimatedContainer(
+          duration: dur,
+          height: isSelected! ? 40.0 : 0.0,
+        ),
+        Row(
+          children: [
+            const Expanded(
+              child: Divider(
+                color: Colors.grey,
+                endIndent: 14.0,
+                thickness: 0.1,
+              ),
+            ),
+            Text(
+              expense.user.name,
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 169, 233, 242),
+                  fontWeight: FontWeight.bold),
+            ),
+            const Expanded(
+              child: Divider(
+                color: Colors.grey,
+                indent: 14.0,
+                thickness: 0.1,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        AnimatedPadding(
+          duration: dur,
+          padding: EdgeInsets.symmetric(horizontal: isSelected! ? 18 : 0.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    "نام کالا",
+                    style: TextStyle(fontSize: 10, color: Colors.grey[600]),
+                  ),
+                  Text(
+                    expense.name,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    "دسته بندی",
+                    style: TextStyle(fontSize: 10, color: Colors.grey[600]),
+                  ),
+                  Text(
+                    expense.category,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget notSelectedItem(Expense expense) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          expense.category,
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              expense.amount % 10 == 0
+                  ? expense.amount.toInt().toString()
+                  : expense.amount.toString(),
+              style: const TextStyle(color: Colors.redAccent, fontSize: 13),
+            ),
+            Text(
+              getPassedTime(expense.date),
+              style: const TextStyle(color: Colors.grey, fontSize: 10),
+            ),
+          ],
+        )
+      ],
     );
   }
 

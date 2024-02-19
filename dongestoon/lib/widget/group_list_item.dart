@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 import '../models/group.dart';
 
 Widget groupItem(Group group) {
+
   return Padding(
     padding: const EdgeInsets.only(bottom: 18),
     child: Container(
@@ -19,10 +20,10 @@ Widget groupItem(Group group) {
         children: [
           Container(
             width: 80,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                  alignment: Alignment(-.2, 0),
-                  image: AssetImage('assets/images/blank-profile.jpg'),
+                  alignment: const Alignment(-.2, 0),
+                  image: AssetImage('assets/images/group${group.profilePic}.png'),
                   /*Image.asset('assets/images/blank-profile.jpg'),*/
                   fit: BoxFit.cover),
               borderRadius: BorderRadius.only(

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:dongestoon/models/group.dart';
 import 'package:dongestoon/models/transaction.dart';
@@ -9,7 +8,7 @@ class User {
   int? rank;
   double? moneySpent;
   double? moneyReceived;
-  Image? profileImage;
+  int? profileImage;
   List<Group>? groupList;
   List<Transaction>? transactionList;
 

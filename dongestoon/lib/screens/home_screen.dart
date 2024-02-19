@@ -19,9 +19,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   User user = User(id: "id", name: "name", rank: 0);
-  var itemSelected = false;
+  var isSelected = false;
   int? selectedIndex;
   GlobalKey<ScrollSnapListState> sslKey = GlobalKey();
+  var dur = const Duration(milliseconds: 1000);
 
   @override
   void initState() {
@@ -40,9 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (BuildContext context, state) {
           if (state is UserLoginSuccess) {
             user = state.user;
-            itemSelected = false;
+            isSelected = false;
           } else if (state is SelectNotification) {
-            itemSelected = true;
+            isSelected = true;
             selectedIndex = state.index;
           }
         },
@@ -94,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(40), // Image radius
-                      child: Image.asset('assets/images/blank-profile.jpg',
+                      child: Image.asset('assets/images/avatar1.png',
                           fit: BoxFit.cover),
                     ),
                   ),
@@ -113,21 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  /*SizedBox(
-                    height: 150,
-                    child: ScrollSnapList(
-                      reverse: true,
-                      itemSize: 185,
-                      onItemFocus: _onItemFocus,
-                      itemCount: tempExpenseList.length,
-                      key: sslKey,
-                      itemBuilder: (context, index) {
-                        return NotificationItem(
-                          expense: tempExpenseList[index],
-                        );
-                      },
-                    ),
-                  ),*/
                 ],
               ),
               const SizedBox(
@@ -166,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          itemSelected
+          isSelected
               ? GestureDetector(
                   onTap: () {
                     context.read<HomeCubit>().fetchUserData();
@@ -177,26 +163,33 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: itemSelected ? 100 : 210,
+              AnimatedContainer(
+                duration: dur,
+                height: isSelected ? 100 : 210,
               ),
-              itemSelected
-                  ? selectedNotificationItem(tempExpenseList[selectedIndex!])
-                  : SizedBox(
-                      height: 400,
-                      child: ScrollSnapList(
-                        reverse: true,
-                        itemSize: 185,
-                        onItemFocus: _onItemFocus,
-                        itemCount: tempExpenseList.length,
-                        key: sslKey,
-                        itemBuilder: (context, index) {
-                          return NotificationItem(
-                            expense: tempExpenseList[index],
-                          );
-                        },
-                      ),
-                    ),
+              AnimatedContainer(
+                curve: Curves.ease,
+                transformAlignment: Alignment.center,
+                duration: Duration(milliseconds: 1300),
+                height: isSelected ? 500 : 140,
+                width: isSelected ? 400 : MediaQuery.of(context).size.width,
+                child: ScrollSnapList(
+                  itemSize: isSelected ? 235 :  185,
+                  onItemFocus: _onItemFocus,
+                  itemCount: isSelected ? 1 : tempExpenseList.length,
+                  //dynamicItemSize: true,
+                  curve: Curves.easeInOut,
+                  margin: EdgeInsets.only(
+                   // left: isSelected ? 50 : 0,
+                  ),
+                  key: sslKey,
+                  itemBuilder: (context, index) {
+                    return NotificationItem(
+                      expense: isSelected ? tempExpenseList[selectedIndex!] : tempExpenseList[index],
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ],
@@ -286,7 +279,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             ],
                           ),
-
                         ],
                       ),
                     ),
