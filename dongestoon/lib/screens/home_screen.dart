@@ -1,5 +1,4 @@
-import 'dart:ui';
-import 'package:dongestoon/bloc/Home/home_cubit.dart';
+import 'package:dongestoon/block/home/home_cubit.dart';
 import 'package:dongestoon/helper/connect_to_backend.dart';
 import 'package:dongestoon/models/group.dart';
 import 'package:dongestoon/models/user.dart';
@@ -194,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListView.builder(
                             itemCount: tempGroupList.length,
                             itemBuilder: (context, index) {
-                              return groupItem(tempGroupList[index]);
+                              return groupItem(tempGroupList[index],context);
                             },
                           ),
                         ),

@@ -1,5 +1,5 @@
 import 'package:delayed_display/delayed_display.dart';
-import 'package:dongestoon/bloc/Home/home_cubit.dart';
+import 'package:dongestoon/block/home/home_cubit.dart';
 import 'package:dongestoon/temp_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
