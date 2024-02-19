@@ -1,5 +1,4 @@
-import 'dart:math';
-import 'dart:ui';
+
 import 'package:dongestoon/bloc/Home/home_cubit.dart';
 import 'package:dongestoon/temp_data.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ class NotificationItem extends StatefulWidget {
 
 class _NotificationItemState extends State<NotificationItem> {
   bool? isSelected;
-  var dur = const Duration(milliseconds: 1000);
+  var dur = const Duration(milliseconds: 400);
 
   @override
   void initState() {
@@ -51,53 +50,57 @@ class _NotificationItemState extends State<NotificationItem> {
         duration: dur,
         padding: EdgeInsets.only(
           top: isSelected! ? 35.0 : 0.0,
-          left: isSelected! ? 8.0 : 8.0,
-          right: /* isSelected! ? 50.0 :*/ 8.0,
         ),
         child: Stack(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AnimatedContainer(
-                      duration: dur,
-                      height: isSelected! ? 50 : 25,
-                    ),
-                    AnimatedContainer(
-                      transformAlignment: Alignment.topCenter,
-                      curve: Curves.easeOutBack,
-                      duration: dur,
-                      width: isSelected! ? 225 : 170,
-                      height: isSelected! ? 360 : 98,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 20, 18, 24),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        //duration: dur,
-                        padding: const EdgeInsets.all(22.0),
-                        child: isSelected!
-                            ? selectedNotificationItem(expense)
-                            : notSelectedItem(expense),
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        AnimatedContainer(
+                          duration: dur,
+                          height: isSelected! ? 50 : 25,
+                        ),
+                        AnimatedContainer(
+                          curve: Curves.easeInOutCirc,
+                          duration: dur,
+                          width: isSelected! ? 240 : 200,
+                          height: isSelected! ? 360 : 98,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 20, 18, 24),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(22.0),
+                            child: isSelected!
+                                ? selectedNotificationItem(expense)
+                                : notSelectedItem(expense),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                SizedBox(width: isSelected! ? 50 : 0,)
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
                   width: 63,
                 ),
-                //isSelected! ? AnimatedContainer(duration: dur, width: isSelected! ? 20 : 0 ,) : SizedBox(),
                 AnimatedPadding(
                   duration: dur,
-                  padding: EdgeInsets.only(left: isSelected! ? 0 : 50 ),
+                  padding: EdgeInsets.only(left: isSelected! ? 60 : 60),
                   child: AnimatedContainer(
                     duration: dur,
+                    curve: Curves.easeIn,
                     transformAlignment: Alignment.center,
                     width: isSelected! ? 100 : 50,
                     height: isSelected! ? 100 : 50,
@@ -128,7 +131,7 @@ class _NotificationItemState extends State<NotificationItem> {
           duration: dur,
           height: isSelected! ? 40.0 : 0.0,
         ),
-        Row(
+        /*Row(
           children: [
             const Expanded(
               child: Divider(
@@ -189,7 +192,7 @@ class _NotificationItemState extends State<NotificationItem> {
               ),
             ],
           ),
-        ),
+        ),*/
       ],
     );
   }

@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:dongestoon/bloc/Home/home_cubit.dart';
-import 'package:dongestoon/models/expense.dart';
 import 'package:dongestoon/models/user.dart';
 import 'package:dongestoon/temp_data.dart';
 import 'package:dongestoon/widget/group_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 import '../widget/notification_item.dart';
@@ -27,10 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-  }
-
-  void _onItemFocus(int index) {
-    print(index);
   }
 
   @override
@@ -87,8 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.light_mode_outlined))
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.light_mode_outlined,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -164,135 +163,52 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AnimatedContainer(
-                duration: dur,
+                //color: Colors.blue,
+                curve: Curves.elasticOut,
+                duration: Duration(milliseconds: 900),
                 height: isSelected ? 100 : 210,
               ),
               AnimatedContainer(
-                curve: Curves.ease,
+                //color: Colors.red,
+                curve: Curves.linear,
                 transformAlignment: Alignment.center,
-                duration: Duration(milliseconds: 1300),
-                height: isSelected ? 500 : 140,
+                duration: Duration(milliseconds: isSelected ? 100 : 600),
+                height: isSelected ? 500 : 130,
                 width: isSelected ? 400 : MediaQuery.of(context).size.width,
-                child: ScrollSnapList(
-                  itemSize: isSelected ? 235 :  185,
-                  onItemFocus: _onItemFocus,
-                  itemCount: isSelected ? 1 : tempExpenseList.length,
-                  //dynamicItemSize: true,
-                  curve: Curves.easeInOut,
-                  margin: EdgeInsets.only(
-                   // left: isSelected ? 50 : 0,
+                child: FlutterCarousel(
+                  options: CarouselOptions(
+                    height: 500.0,
+                    showIndicator: false,
+                    disableCenter: true,
+                    viewportFraction: isSelected ? 1 : 0.65,
+                    //height: MediaQuery.of(context).size.height * 0.45,
+                    slideIndicator: const CircularSlideIndicator(),
                   ),
+                  items: tempExpenseList.map((e) {
+                    return NotificationItem(
+                      expense: isSelected ? tempExpenseList[selectedIndex!] : e,
+                    );
+                  }).toList(),
+                  /*ScrollSnapList(
+                  itemSize: isSelected ? 235 : 200,
+                  onItemFocus: _onItemFocus,
+                  itemCount: */ /*isSelected ? 1 : */ /*tempExpenseList.length,
+                  curve: Curves.linear,
+                  margin: const EdgeInsets.only(
+                      // left: isSelected ? 50 : 0,
+                      ),
                   key: sslKey,
                   itemBuilder: (context, index) {
                     return NotificationItem(
-                      expense: isSelected ? tempExpenseList[selectedIndex!] : tempExpenseList[index],
+                      expense: isSelected
+                          ? tempExpenseList[selectedIndex!]
+                          : tempExpenseList[index],
                     );
                   },
+                ),*/
                 ),
-              ),
+              )
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget selectedNotificationItem(Expense expense) {
-    return Center(
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Column(
-            children: [
-              const SizedBox(
-                height: 45,
-              ),
-              Container(
-                width: 225,
-                height: 360,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 20, 18, 24),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 60,
-                    ),
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Divider(
-                            color: Colors.grey,
-                            endIndent: 14.0,
-                            thickness: 0.1,
-                          ),
-                        ),
-                        Text(
-                          expense.user.name,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 169, 233, 242),
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const Expanded(
-                          child: Divider(
-                            color: Colors.grey,
-                            indent: 14.0,
-                            thickness: 0.1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 38),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                "نام کالا",
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.grey[600]),
-                              ),
-                              Text(
-                                expense.name,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "دسته بندی",
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.grey[600]),
-                              ),
-                              Text(
-                                expense.category,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          ClipOval(
-            child: SizedBox.fromSize(
-              size: const Size.fromRadius(45), // Image radius
-              child: Image.asset('assets/images/blank-profile.jpg',
-                  fit: BoxFit.cover),
-            ),
           ),
         ],
       ),
