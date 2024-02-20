@@ -1,4 +1,4 @@
-
+import 'package:delayed_display/delayed_display.dart';
 import 'package:dongestoon/bloc/Home/home_cubit.dart';
 import 'package:dongestoon/temp_data.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,9 @@ class NotificationItem extends StatefulWidget {
 
 class _NotificationItemState extends State<NotificationItem> {
   bool? isSelected;
-  var dur = const Duration(milliseconds: 400);
+
+  //400
+  var dur = const Duration(milliseconds: 300);
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _NotificationItemState extends State<NotificationItem> {
       child: AnimatedPadding(
         duration: dur,
         padding: EdgeInsets.only(
-          top: isSelected! ? 35.0 : 0.0,
+          top: isSelected! ? 20.0 : 0.0,
         ),
         child: Stack(
           children: [
@@ -60,30 +62,38 @@ class _NotificationItemState extends State<NotificationItem> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        AnimatedContainer(
-                          duration: dur,
-                          height: isSelected! ? 50 : 25,
-                        ),
-                        AnimatedContainer(
-                          curve: Curves.easeInOutCirc,
-                          duration: dur,
-                          width: isSelected! ? 240 : 200,
-                          height: isSelected! ? 360 : 98,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 20, 18, 24),
-                            borderRadius: BorderRadius.circular(20),
+                    Container(
+                      //color: Colors.green,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AnimatedContainer(
+                            duration: dur,
+                            height: isSelected! ? 50 : 25,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(22.0),
+                          AnimatedContainer(
+                            curve: Curves.easeInOutCirc,
+                            duration: dur,
+                            width: isSelected! ? 230 : 190,
+                            height: isSelected! ? 350 : 98,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 20, 18, 24),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: isSelected!
-                                ? selectedNotificationItem(expense)
+                                ? Stack(
+                                  children: [
+                                    DelayedDisplay(
+                                        delay: const Duration(milliseconds: 190),
+                                        slidingCurve: Curves.decelerate,
+                                        child: selectedNotificationItem(expense),
+                                      ),
+                                  ],
+                                )
                                 : notSelectedItem(expense),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -124,104 +134,229 @@ class _NotificationItemState extends State<NotificationItem> {
   }
 
   Widget selectedNotificationItem(Expense expense) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AnimatedContainer(
-          duration: dur,
-          height: isSelected! ? 40.0 : 0.0,
-        ),
-        /*Row(
-          children: [
-            const Expanded(
-              child: Divider(
-                color: Colors.grey,
-                endIndent: 14.0,
-                thickness: 0.1,
-              ),
-            ),
-            Text(
-              expense.user.name,
-              style: const TextStyle(
-                  color: Color.fromARGB(255, 169, 233, 242),
-                  fontWeight: FontWeight.bold),
-            ),
-            const Expanded(
-              child: Divider(
-                color: Colors.grey,
-                indent: 14.0,
-                thickness: 0.1,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20.0,
-        ),
-        AnimatedPadding(
-          duration: dur,
-          padding: EdgeInsets.symmetric(horizontal: isSelected! ? 18 : 0.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Padding(
+      padding: const EdgeInsets.only(top: 22.0),
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                children: [
-                  Text(
-                    "نام کالا",
-                    style: TextStyle(fontSize: 10, color: Colors.grey[600]),
-                  ),
-                  Text(
-                    expense.name,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  )
-                ],
+              AnimatedContainer(
+                duration: dur,
+                height: isSelected! ? 40.0 : 0.0,
               ),
-              Column(
-                children: [
-                  Text(
-                    "دسته بندی",
-                    style: TextStyle(fontSize: 10, color: Colors.grey[600]),
+              DelayedDisplay(
+                delay: const Duration(milliseconds: 10),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Divider(
+                        color: Colors.grey,
+                        endIndent: 16,
+                        thickness: 0.5,
+                      ),
+                    ),
+                    Text(
+                      expense.user.name,
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 169, 233, 242),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const Expanded(
+                      child: Divider(
+                        color: Colors.grey,
+                        indent: 16.0,
+                        thickness: 0.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              DelayedDisplay(
+                delay: const Duration(milliseconds: 40),
+
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      DelayedDisplay(
+                        delay: const Duration(milliseconds: 40),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Flex(direction: Axis.vertical, children: [
+                                  Text(
+                                    "نام کالا",
+                                    style: TextStyle(
+                                        fontSize: 10, color: Colors.grey[600]),
+                                  ),
+                                ]),
+                                Text(
+                                  expense.name,
+                                  style: const TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  "دسته بندی",
+                                  style:
+                                      TextStyle(fontSize: 10, color: Colors.grey[600]),
+                                ),
+                                Text(
+                                  expense.category,
+                                  style: const TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      DelayedDisplay(
+                        delay: const Duration(milliseconds: 160),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: Stack(
+                            children: [
+                              Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 14,
+                                  ),
+                                  Container(
+                                    height: 85,
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(255, 40, 37, 44),
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                        color: Color.fromARGB(255, 40, 37, 44),
+                                      ),
+                                    ),
+                                    //color: Color.fromARGB(255, 40, 37, 44),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: 4),
+                                height: 27,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 169, 233, 242),
+                                  borderRadius: BorderRadius.circular(45),
+                                  border: Border.all(
+                                    color: const Color.fromARGB(255, 169, 233, 242),
+                                  ),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    "توضیحات",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      DelayedDisplay(
+                        delay: Duration(milliseconds: 200),
+
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                              width: 85,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color.fromARGB(255, 40, 37, 44),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    )),
+                                onPressed: () {},
+                                child: const Text(
+                                  "پرداخت",
+                                  style: TextStyle(color: Colors.white,fontSize: 12),
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  "قیمت",
+                                  style:
+                                  TextStyle(fontSize: 10, color: Colors.grey[600]),
+                                ),
+                                const SizedBox(height: 5,),
+                                Text(
+                                  expense.amount.toInt().toString(),
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Colors.redAccent),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    expense.category,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  )
-                ],
+                ),
               ),
             ],
           ),
-        ),*/
-      ],
+        ],
+      ),
     );
   }
 
   Widget notSelectedItem(Expense expense) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          expense.category,
-          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              expense.amount % 10 == 0
-                  ? expense.amount.toInt().toString()
-                  : expense.amount.toString(),
-              style: const TextStyle(color: Colors.redAccent, fontSize: 13),
-            ),
-            Text(
-              getPassedTime(expense.date),
-              style: const TextStyle(color: Colors.grey, fontSize: 10),
-            ),
-          ],
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(22.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            expense.category,
+            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                expense.amount % 10 == 0
+                    ? expense.amount.toInt().toString()
+                    : expense.amount.toString(),
+                style: const TextStyle(color: Colors.redAccent, fontSize: 13),
+              ),
+              Text(
+                getPassedTime(expense.date),
+                style: const TextStyle(color: Colors.grey, fontSize: 10),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 

@@ -6,10 +6,13 @@ import 'package:dongestoon/widget/group_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:glass/glass.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 import '../widget/notification_item.dart';
 
+//todo sliver listview
+//todo font vaziri
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -180,7 +183,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 500.0,
                     showIndicator: false,
                     disableCenter: true,
-                    viewportFraction: isSelected ? 1 : 0.65,
+                    // decrease
+                    viewportFraction:isSelected ? 2 : 0.6,
                     //height: MediaQuery.of(context).size.height * 0.45,
                     slideIndicator: const CircularSlideIndicator(),
                   ),
@@ -216,13 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget generateBlurredImage() {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 9.0, sigmaY: 9.0),
-      child: Container(
-        //you can change opacity with color here(I used black) for background.
-        decoration: BoxDecoration(color: Colors.black.withOpacity(0.3)),
-      ),
-    );
+    return Container().asGlass(tintColor: Colors.black26,frosted: false);
   }
 
   String getLevel(int value) {
