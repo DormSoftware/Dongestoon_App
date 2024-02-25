@@ -1,20 +1,18 @@
-import 'dart:ui';
-
 import 'package:dongestoon/models/user.dart';
 
 class Group {
-  String id;
+  String? id;
   String name;
-  List<User>? members;
-  Image? profilePic;
+  List<String> userList;
+  int? profilePic;
   double? totalCost;
   double? rank;
 
   Group(
-      {required this.id,
+      {this.id,
       required this.name,
+      required this.userList,
       this.totalCost,
       this.profilePic,
-      this.members,
       this.rank});
 }
