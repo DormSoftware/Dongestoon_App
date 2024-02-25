@@ -11,10 +11,11 @@ class HomeCubit extends Cubit<HomeState> {
     emit(
       UserLoginSuccess(
         User(
-            id: "00",
             name: "مهدی مظاهری تهرانی",
             groupList: tempGroupList,
-            rank: 0),
+            rank: 0,
+            expenceList: tempExpenseList, userName: '', lastName: '', email: '', password: '',
+        ),
       ),
     );
   }

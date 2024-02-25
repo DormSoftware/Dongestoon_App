@@ -41,6 +41,7 @@ dependencies:
   flutter_carousel_widget: ^2.2.0
   delayed_display: ^2.0.0
   glass: ^2.0.0+1
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:

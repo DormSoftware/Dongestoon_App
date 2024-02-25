@@ -6,8 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/expense.dart';
 
 class NotificationItem extends StatefulWidget {
-  const NotificationItem({super.key, required this.expense});
+  const NotificationItem({super.key, required this.expense, required this.index});
 
+  final int index;
   final Expense expense;
 
   @override
@@ -16,7 +17,7 @@ class NotificationItem extends StatefulWidget {
 
 class _NotificationItemState extends State<NotificationItem> {
   bool? isSelected;
-
+ int? selectedIndex;
   //400
   var dur = const Duration(milliseconds: 300);
 
@@ -35,6 +36,7 @@ class _NotificationItemState extends State<NotificationItem> {
           isSelected = false;
         } else if (state is SelectNotification) {
           isSelected = true;
+          selectedIndex = state.index;
         }
       },
       child: notificationItem(widget.expense),
@@ -80,16 +82,16 @@ class _NotificationItemState extends State<NotificationItem> {
                               color: const Color.fromARGB(255, 20, 18, 24),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: isSelected!
+                            child: isSelected!&&selectedIndex == widget.index
                                 ? Stack(
-                                  children: [
-                                    DelayedDisplay(
-                                        delay: const Duration(milliseconds: 190),
-                                        slidingCurve: Curves.decelerate,
-                                        child: selectedNotificationItem(expense),
-                                      ),
-                                  ],
-                                )
+                              children: [
+                                DelayedDisplay(
+                                  delay: const Duration(milliseconds: 190),
+                                  slidingCurve: Curves.decelerate,
+                                  child: selectedNotificationItem(expense),
+                                ),
+                              ],
+                            )
                                 : notSelectedItem(expense),
                           ),
                         ],
@@ -115,7 +117,7 @@ class _NotificationItemState extends State<NotificationItem> {
                     width: isSelected! ? 100 : 50,
                     height: isSelected! ? 100 : 50,
                     decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                    BoxDecoration(borderRadius: BorderRadius.circular(50)),
                     child: ClipOval(
                       child: SizedBox.fromSize(
                         child: Image.asset(
@@ -211,7 +213,7 @@ class _NotificationItemState extends State<NotificationItem> {
                                 Text(
                                   "دسته بندی",
                                   style:
-                                      TextStyle(fontSize: 10, color: Colors.grey[600]),
+                                  TextStyle(fontSize: 10, color: Colors.grey[600]),
                                 ),
                                 Text(
                                   expense.category,

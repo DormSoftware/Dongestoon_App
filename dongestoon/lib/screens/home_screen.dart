@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:dongestoon/bloc/Home/home_cubit.dart';
+import 'package:dongestoon/helper/connect_to_backend.dart';
+import 'package:dongestoon/models/group.dart';
 import 'package:dongestoon/models/user.dart';
 import 'package:dongestoon/temp_data.dart';
 import 'package:dongestoon/widget/group_list_item.dart';
@@ -21,11 +23,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  User user = User(id: "id", name: "name", rank: 0);
+  User user = User(
+      id: "id",
+      name: "name",
+      rank: 0,
+      userName: '',
+      lastName: '',
+      email: '',
+      password: '');
   var isSelected = false;
   int? selectedIndex;
   GlobalKey<ScrollSnapListState> sslKey = GlobalKey();
   var dur = const Duration(milliseconds: 1000);
+  var connection = BackendConnection();
 
   @override
   void initState() {
@@ -131,6 +141,47 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                var user = User(
+                                    userName: "مهدی",
+                                    name: "مهدی",
+                                    lastName: "مظاهری",
+                                    email: "mahdiM@gmail.com",
+                                    password: "1234");
+                                var test = await connection.register(user);
+                                print(test.body);
+                                print(test.statusCode);
+                              },
+                              icon:
+                                  const Icon(Icons.insert_drive_file_outlined),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                var test =
+                                    await connection.login("userName", "pass");
+                                print(test.body);
+                                print(test.statusCode);
+                              },
+                              icon: const Icon(Icons.login),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                var group = Group(name: "اتاق ۱۱۴", userList: [
+                                  "d6ba23a1-9823-4ab3-aeb8-01f1c257a429"//admin
+                                      "7e5e9ed0-5f26-4caa-a8a1-34399acbc4bd"//mobin
+                                      "5bf60df2-9823-417f-b071-62a5fa9ec1f5"//mahdi
+                                ]);
+                                var test = await connection.addGroup(group);
+                                print(test.body);
+                                print(test.statusCode);
+                              },
+                              icon: const Icon(Icons.group_add),
+                            ),
+                          ],
+                        ),
                         const Padding(
                           padding: EdgeInsets.only(right: 6, bottom: 6),
                           child: Text(
@@ -167,8 +218,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               AnimatedContainer(
                 //color: Colors.blue,
-                curve: Curves.elasticOut,
-                duration: Duration(milliseconds: 900),
+                curve: Curves.easeOutCirc,
+                duration: const Duration(milliseconds: 900),
                 height: isSelected ? 100 : 210,
               ),
               AnimatedContainer(
@@ -184,13 +235,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     showIndicator: false,
                     disableCenter: true,
                     // decrease
-                    viewportFraction:isSelected ? 2 : 0.6,
+                    viewportFraction: isSelected ? 2 : 0.6,
                     //height: MediaQuery.of(context).size.height * 0.45,
                     slideIndicator: const CircularSlideIndicator(),
                   ),
                   items: tempExpenseList.map((e) {
                     return NotificationItem(
-                      expense: isSelected ? tempExpenseList[selectedIndex!] : e,
+                      expense: /*isSelected ? tempExpenseList[selectedIndex!] :*/
+                          e,
+                      index: selectedIndex ?? -1,
                     );
                   }).toList(),
                   /*ScrollSnapList(
@@ -220,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget generateBlurredImage() {
-    return Container().asGlass(tintColor: Colors.black26,frosted: false);
+    return Container().asGlass(tintColor: Colors.black26, frosted: false);
   }
 
   String getLevel(int value) {
