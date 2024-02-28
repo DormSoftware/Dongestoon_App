@@ -23,6 +23,7 @@ class BackendConnection {
       result = await http.post(Uri.parse("$uri/Auth/Register"),
           headers: {
             'Content-Type': 'application/json',
+            'Auther' : 'barea csdcsdcsdscsd'
           },
           body: jsonData);
     } catch (e) {

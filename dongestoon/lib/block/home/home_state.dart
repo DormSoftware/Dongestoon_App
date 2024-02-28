@@ -1,4 +1,4 @@
-part of '../../../bloc/Home/home_cubit.dart';
+part of '../../block/home/home_cubit.dart';
 
 @immutable
 abstract class HomeState {}
