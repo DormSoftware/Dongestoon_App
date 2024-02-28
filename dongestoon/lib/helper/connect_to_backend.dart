@@ -8,7 +8,16 @@ import '../models/user.dart';
 class BackendConnection {
   var uri = "https://dongestoon.liara.run";
 
-  Future<http.Response> register(User user) async {
+  static Future<http.Response> post(String url,String body) async {
+    var result = await http.post(Uri.parse("https://dongestoon.liara.run/$url"));
+    return result;
+  }
+
+  static Future<http.Response> get(String url,String body) async {
+    var result = await http.post(Uri.parse("https://dongestoon.liara.run/$url"));
+    return result;
+  }
+   Future<http.Response> register(User user) async {
     var result;
     Map<String, dynamic> postData = {
       "username": user.userName,
