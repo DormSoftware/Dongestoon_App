@@ -24,7 +24,8 @@ class _NotificationItemState extends State<NotificationItem> {
   @override
   void initState() {
     isSelected = false;
-    context.read<HomeCubit>().fetchUserData();
+    //context.read<HomeCubit>().fetchUserData("");
+    context.read<HomeCubit>().homeInitial();
     super.initState();
   }
 
@@ -32,7 +33,7 @@ class _NotificationItemState extends State<NotificationItem> {
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeState>(
       listener: (context, state) {
-        if (state is UserLoginSuccess) {
+        if (state is HomeInitial) {
           isSelected = false;
         } else if (state is SelectNotification) {
           isSelected = true;
@@ -74,6 +75,7 @@ class _NotificationItemState extends State<NotificationItem> {
                             height: isSelected! ? 50 : 25,
                           ),
                           AnimatedContainer(
+                            //margin: EdgeInsets.symmetric(horizontal: isSelected! ? 0 : 20),
                             curve: Curves.easeInOutCirc,
                             duration: dur,
                             width: isSelected! ? 230 : 190,

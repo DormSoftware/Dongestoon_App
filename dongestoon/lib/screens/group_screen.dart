@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class GroupScreen extends StatefulWidget {
   const GroupScreen({super.key});
@@ -10,6 +10,11 @@ class GroupScreen extends StatefulWidget {
 class _GroupScreenState extends State<GroupScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("group screen"),);
+    return Scaffold(
+      body: Container(
+        color: Theme.of(context).primaryColor,
+        child: Container(),
+      ),
+    );
   }
 }
