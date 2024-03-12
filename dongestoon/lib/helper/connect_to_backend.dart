@@ -9,12 +9,12 @@ class BackendConnection {
   var uri = "https://dongestoon.liara.run";
 
   static Future<http.Response> post(String url,String body) async {
-    var result = await http.post(Uri.parse("https://dongestoon.liara.run/$url"));
+    var result = await http.post(Uri.parse("https://dongestoon.liara.run$url"),headers: {});
     return result;
   }
 
   static Future<http.Response> get(String url,String body) async {
-    var result = await http.post(Uri.parse("https://dongestoon.liara.run/$url"));
+    var result = await http.post(Uri.parse("https://dongestoon.liara.run$url"));
     return result;
   }
    Future<http.Response> register(User user) async {

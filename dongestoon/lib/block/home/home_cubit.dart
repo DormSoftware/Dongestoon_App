@@ -8,7 +8,7 @@ import '../../models/user.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  Future<void> fetchUserData() async {
+  Future<void> fetchUserData(String token) async {
     emit(
       UserLoginSuccess(
         User(
@@ -19,6 +19,9 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       ),
     );
+  }
+  Future<void> homeInitial() async{
+    emit(HomeInitial());
   }
   Future<void> fetchGroupList() async{
    // var result = BackendConnection.get("/Group", body);
